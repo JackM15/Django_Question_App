@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Registration Success{% endblock %}
+
+
+{% block body %}
+    <div class="container mt-4 register-style">
+        <h3>Welcome!</h3>
+        <p>You're now registered!</p>
+        <p><a href="{% url 'login' %}">Login Here</a></p>
+    </div>
+{% endblock body %}
