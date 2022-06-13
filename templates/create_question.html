@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create A Question {% endblock title %}
+
+{% block styles %}
+    <style>
+        .question-style {
+            width: 700px;
+            height: auto;
+        }
+    </style>
+{% endblock styles %}
+
+{% block body %}
+    <div class="container mt-4 question-style">
+        <h3>Create A Question</h3>
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {{ question_form | crispy }}
+            <input type="submit" value="Add Question" class="btn btn-primary" >
+        </form>
+    </div>
+{% endblock body %}
