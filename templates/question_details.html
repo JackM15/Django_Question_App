@@ -3,6 +3,7 @@
 {% block title %} {{question.title}} Details {% endblock title%}
 
 {% block body %}
+    <!-- Question  -->
     <div class="container mt-4">
         <h1>{{question.title}}</h1>
         <p>{{question.body}}</p>
@@ -11,5 +12,23 @@
             Posted By: <i>{{question.author}}</i>
         </h6>
         <p>Published: {{question.created_at}}</p>
+
+        <hr class="my-4" />
+    </div>
+
+    <!-- Answers  -->
+    <div class="container mt-4">
+        {% for answer in answer_list %}
+            <div class="card mt-4">
+                <div class="card-body">
+                    <p class="card-text">{{answer.description}}</p>
+                    <div class="row">
+                        <div class="col col-md-auto">
+                            Answered By <i>{{answer.author.username}} on {{answer.created_at}}</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock body %}
