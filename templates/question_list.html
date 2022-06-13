@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Questions List{% endblock title %}
+
+{% block styles %}
+    <style>
+        .link-style {
+            text-decoration: none;
+            color: rgb(28,90,4)
+        }
+        .link-style:hover {
+            text-decoration: none;
+            color: green;
+        }
+    </style>
+{% endblock styles %}
+
+{% block body %}
+    <div class="container mt-4">
+        {% for question in question_list %}
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="link-style" href="#">{{question.title}}</a>
+                    </h5>
+                    <p class="card-text">{{question.body}}</p>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col col-md-auto">
+                                Posted By: {{question.author.username}}
+                            </div>
+                            <div class="col col-md-auto">
+                                Answers: {{question.answers.count}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}
