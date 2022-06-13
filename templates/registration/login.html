@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Login {% endblock title %}
+
+{% block styles %}
+    <style>
+        .login_form {
+            width: 500px;
+            height: auto;
+        }
+    </style>
+{% endblock styles %}
+
+{% block body %}
+    <div class="container mt-4login_form">
+        <h1>User Login</h1>
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {{form | crispy}}
+            <input type="hidden" name="next" value="{{next}}">
+            <input type="submit" value="Login" class="btn btn-success" />
+        </form>
+    </div>
+{% endblock body %}
