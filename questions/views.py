@@ -72,3 +72,9 @@ def update_question(request, slug):
         return redirect("question_list")
     
     return render(request, "update_question.html", {"form": form})
+
+
+def delete_question(request, slug):
+    question = get_object_or_404(Question, slug=slug)
+    question.delete()
+    return redirect("question_list")
