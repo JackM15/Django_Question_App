@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %} {{question.title}} Details {% endblock title%}
 
@@ -11,7 +12,7 @@
         <h6>
             Posted By: <i>{{question.author}}</i>
         </h6>
-        <p>Published: {{question.created_at}}</p>
+        <p>Asked on {{question.created_at}}</p>
 
         <hr class="my-4" />
     </div>
@@ -30,5 +31,19 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+
+    <!-- Answer Form -->
+    <div class="container mt-4 mb-4">
+        <div class="card mt-4">
+            <form action="" method="POST" novalidate>
+                <h5 class="card-header">Submit Answer</h5>
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <input type="submit" value="Answer Question" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock body %}

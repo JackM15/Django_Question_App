@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Question, Answer
-from .forms import UserRegistrationForm, QuestionCreationForm
+from .forms import UserRegistrationForm, QuestionCreationForm, AnswerForm
 
 def question_list(request):
     question_list = Question.objects.all().order_by("-created_at")
@@ -9,7 +9,23 @@ def question_list(request):
 def question_details(request, slug):
     question = get_object_or_404(Question, slug=slug)
     answer_list = Answer.objects.filter(question=question)
-    return render(request, "question_details.html", {"question": question, "answer_list": answer_list})
+
+    # add an answer
+    form = AnswerForm(request.POST)
+
+    if request.method == "POST":
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.question = question
+            answer.author = request.user
+            answer = form.save()
+
+            return redirect("question_details", slug=question.slug)
+    
+    else:
+        form = AnswerForm()
+
+    return render(request, "question_details.html", {"question": question, "answer_list": answer_list, "form": form})
 
 def register(request):
     if request.method == "POST":
