@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}My Questions & Answers{% endblock title %}
+
+{% block styles %}
+    <style>
+        .link-style {
+            text-decoration: none;
+            color: rgb(28,90,4)
+        }
+        .link-style:hover {
+            text-decoration: none;
+            color: green;
+        }
+    </style>
+{% endblock styles %}
+
+{% block body %}
+    <div class="container mt-4">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-questions-tab" data-bs-toggle="tab" data-bs-target="#nav-questions" type="button" role="tab" aria-controls="nav-questions" aria-selected="true">My Questions</button>
+                <button class="nav-link" id="nav-answers-tab" data-bs-toggle="tab" data-bs-target="#nav-answers" type="button" role="tab" aria-controls="nav-answers" aria-selected="false">My Answers</button>
+            </div>
+        </nav>
+    
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-questions" role="tabpanel" aria-labelledby="nav-questions-tab">
+                <div class="card mt-4 py-3 px-3">
+                    <h4 class="card-header">You have asked {{ questions.count }} question(s).</h4>
+                    <div class="card-body">
+                        {% for question in questions %}
+                            <h5 class="card-text"><a href="{% url 'question_details' question.slug %}" class="link-style">{{question.title}}</a></h5>
+
+                            <a href="{% url 'update_question' question.slug %}" class="btn btn-outline-warning btn-sm mt-3">Edit Question</a>
+                            <a href="{% url 'delete_question' question.slug %}" class="btn btn-outline-danger btn-sm mt-3">Delete Question</a>
+                            
+                            {% if questions.count > 1 %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-answers" role="tabpanel" aria-labelledby="nav-answers-tab">
+                <div class="card mt-4 py-3 px-3">
+                    <h4 class="card-header">You have answered {{ answers.count }} question(s).</h4>
+                    <div class="card-body">
+                        {% for answer in answers %}
+                            <p class="card-text mt-4">{{answer.description}}</p>
+
+                            <a href="{% url 'update_answer' answer.id %}" class="btn btn-outline-warning btn-sm mt-3">Edit Answer</a>
+                            <a href="{% url 'delete_answer' answer.id %}" class="btn btn-outline-danger btn-sm mt-3">Delete Answer</a>
+
+                            {% if answers.count > 1 %}
+                                <hr>
+                            {% endif %}
+                            
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

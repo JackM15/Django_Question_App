@@ -111,3 +111,10 @@ def change_profile(request):
     form = ProfileForm(instance= request.user)
 
     return render(request, 'registration/profile.html', {'form': form})
+
+
+def list_own_questions_and_answers(request):
+    questions = Question.objects.filter(author=request.user).order_by("-created_at")
+    answers = Answer.objects.filter(author=request.user).order_by("-created_at")
+
+    return render(request, "own_questions_and_answers.html", {"questions": questions, "answers": answers})
