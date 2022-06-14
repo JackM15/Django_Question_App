@@ -38,3 +38,9 @@ class QuestionUpdateForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'body']
+
+
+class AnswerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['description']

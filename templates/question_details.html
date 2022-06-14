@@ -33,6 +33,12 @@
                             Answered By <i>{{answer.author.username}} on {{answer.created_at}}</i>
                         </div>
                     </div>
+                    <div class="mt-3">
+                        {% if request.user == answer.author %}
+                        <a href="{% url 'delete_answer' answer.id %}" class="btn btn-outline-danger">Delete</a>
+                        <a href="{% url 'update_answer' answer.id %}" class="btn btn-outline-warning">Edit Answer</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         {% endfor %}
