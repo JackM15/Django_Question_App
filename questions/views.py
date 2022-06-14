@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Question, Answer
-from .forms import UserRegistrationForm, QuestionCreationForm, AnswerForm, QuestionUpdateForm, AnswerUpdateForm
+from .forms import UserRegistrationForm, QuestionCreationForm, AnswerForm, QuestionUpdateForm, AnswerUpdateForm, ProfileForm
 
 def question_list(request):
     question_list = Question.objects.all().order_by("-created_at")
@@ -97,3 +98,16 @@ def delete_answer(request, id):
     answer = get_object_or_404(Answer, id=id)
     answer.delete()
     return redirect("question_details", slug=answer.question.slug)
+
+
+def change_profile(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+    
+    form = ProfileForm(instance= request.user)
+
+    return render(request, 'registration/profile.html', {'form': form})

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Login {% endblock title %}
+
+{% block styles %}
+    <style>
+        .profile_form {
+            width: 500px;
+            height: auto;
+        }
+    </style>
+{% endblock styles %}
+
+{% block body %}
+    <div class="container mt-4 profile_form">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.level_tag }}" role="alert">{{ message.message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <h1>Update Profile</h1>
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {{form | crispy}}
+            <input type="submit" value="Update Profile" class="btn btn-success" />
+        </form>
+    </div>
+{% endblock body %}
