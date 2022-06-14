@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Question, Answer
 from .forms import UserRegistrationForm, QuestionCreationForm, AnswerForm, QuestionUpdateForm, AnswerUpdateForm, ProfileForm
 
+@login_required
 def question_list(request):
     question_list = Question.objects.all().order_by("-created_at")
     return render(request, "question_list.html", {"question_list": question_list})
 
+@login_required
 def question_details(request, slug):
     question = get_object_or_404(Question, slug=slug)
     answer_list = Answer.objects.filter(question=question)
@@ -28,6 +31,7 @@ def question_details(request, slug):
 
     return render(request, "question_details.html", {"question": question, "answer_list": answer_list, "form": form})
 
+
 def register(request):
     if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
@@ -45,8 +49,8 @@ def register(request):
     return render(request, "register.html", {"user_form": user_form})
 
 
+@login_required
 def create_question(request):
-
     if request.method == "POST":
         question_form = QuestionCreationForm(request.POST)
 
@@ -63,6 +67,7 @@ def create_question(request):
     return render(request, "create_question.html", {"question_form": question_form})
 
 
+@login_required
 def update_question(request, slug):
     question = get_object_or_404(Question, slug=slug)
 
@@ -75,16 +80,16 @@ def update_question(request, slug):
     return render(request, "update_question.html", {"form": form})
 
 
+@login_required
 def delete_question(request, slug):
     question = get_object_or_404(Question, slug=slug)
     question.delete()
     return redirect("question_list")
 
 
+@login_required
 def update_answer(request, id):
-
     answer = get_object_or_404(Answer, id=id)
-
     form = AnswerUpdateForm(request.POST or None, instance=answer)
 
     if form.is_valid():
@@ -94,12 +99,14 @@ def update_answer(request, id):
     return render(request, "update_answer.html", {"form": form})
 
 
+@login_required
 def delete_answer(request, id):
     answer = get_object_or_404(Answer, id=id)
     answer.delete()
     return redirect("question_details", slug=answer.question.slug)
 
 
+@login_required
 def change_profile(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=request.user)
@@ -113,6 +120,7 @@ def change_profile(request):
     return render(request, 'registration/profile.html', {'form': form})
 
 
+@login_required
 def list_own_questions_and_answers(request):
     questions = Question.objects.filter(author=request.user).order_by("-created_at")
     answers = Answer.objects.filter(author=request.user).order_by("-created_at")
