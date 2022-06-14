@@ -14,6 +14,11 @@
         </h6>
         <p>Asked on {{question.created_at}}</p>
 
+        {% if request.user == question.author %}
+            <a href="" class="btn btn-danger">Delete</a>
+            <a href="{% url 'update_question' question.slug %}" class="btn btn-warning">Edit</a>
+        {% endif %}
+
         <hr class="my-4" />
     </div>
 
