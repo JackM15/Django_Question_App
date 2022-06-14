@@ -6,7 +6,14 @@ from .forms import UserRegistrationForm, QuestionCreationForm, AnswerForm, Quest
 
 @login_required
 def question_list(request):
-    question_list = Question.objects.all().order_by("-created_at")
+
+    if "search-term" in request.GET:
+        q = request.GET["search-term"]
+        question_list = Question.objects.filter(title__icontains=q).order_by("-created_at")
+    
+    else:
+        question_list = Question.objects.all().order_by("-created_at")
+
     return render(request, "question_list.html", {"question_list": question_list})
 
 @login_required
